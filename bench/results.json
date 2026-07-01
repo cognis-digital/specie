@@ -103,38 +103,38 @@
     {
       "transactions": 2000,
       "clusters_found": 1,
-      "cluster_s": 0.0027,
+      "cluster_s": 0.0029,
       "detect_mixer_s": 0.0002,
-      "detect_peel_s": 0.0008,
-      "build_graph_s": 0.0183,
-      "total_s": 0.0221,
-      "tx_per_s": 90618
+      "detect_peel_s": 0.0009,
+      "build_graph_s": 0.0174,
+      "total_s": 0.0213,
+      "tx_per_s": 93846
     },
     {
       "transactions": 10000,
       "clusters_found": 1,
-      "cluster_s": 0.015,
-      "detect_mixer_s": 0.0014,
-      "detect_peel_s": 0.007,
-      "build_graph_s": 0.1076,
-      "total_s": 0.131,
-      "tx_per_s": 76363
+      "cluster_s": 0.0272,
+      "detect_mixer_s": 0.0016,
+      "detect_peel_s": 0.0044,
+      "build_graph_s": 0.1035,
+      "total_s": 0.1367,
+      "tx_per_s": 73133
     },
     {
       "transactions": 40000,
       "clusters_found": 1,
-      "cluster_s": 0.0744,
-      "detect_mixer_s": 0.0066,
-      "detect_peel_s": 0.0267,
-      "build_graph_s": 0.5772,
-      "total_s": 0.685,
-      "tx_per_s": 58392
+      "cluster_s": 0.0696,
+      "detect_mixer_s": 0.0064,
+      "detect_peel_s": 0.0261,
+      "build_graph_s": 0.5348,
+      "total_s": 0.6368,
+      "tx_per_s": 62811
     }
   ],
   "sources": {
     "total": 48,
     "keyless": 46,
-    "integrated": 18,
+    "integrated": 34,
     "by_category": {
       "blockchain-explorer": 20,
       "chain-registry": 2,

@@ -133,6 +133,27 @@ def test_solana_signatures_dispatch():
     assert [s["signature"] for s in sigs] == ["sig1", "sig2"]
 
 
+TRON = '{"data":[{"txID":"t1","block_timestamp":123,"raw_data":{"contract":[{"parameter":{"value":{"owner_address":"41own","to_address":"41to","amount":5000000}}}]}}]}'
+BLOCKCHAIN_INFO = '{"txs":[{"hash":"bi1","time":100,"inputs":[{"prev_out":{"addr":"A","value":200000000}}],"out":[{"addr":"B","value":150000000}]}]}'
+XRPL = '{"result":{"transactions":[{"tx":{"hash":"x1","TransactionType":"Payment","Account":"rA","Destination":"rB","Amount":"5000000","date":100}}]}}'
+
+
+def test_tron_and_blockchain_info_dispatch():
+    tx = registry.fetch_onchain("tron_trongrid", FakeClient({"trongrid.io": TRON}), address="41own")
+    assert tx[0] == {"txid": "t1", "asset": "tron", "timestamp": 123,
+                     "inputs": [{"address": "41own", "value": 5.0}],
+                     "outputs": [{"address": "41to", "value": 5.0}]}
+    bi = registry.fetch_onchain("btc_blockchain_info", FakeClient({"blockchain.info": BLOCKCHAIN_INFO}), address="A")
+    assert bi[0]["inputs"][0] == {"address": "A", "value": 2.0}
+    assert bi[0]["outputs"][0] == {"address": "B", "value": 1.5}
+
+
+def test_xrpl_dispatch():
+    tx = registry.fetch_onchain("xrpl_rpc", FakeClient({"account_tx": XRPL}), address="rA")
+    assert tx[0]["inputs"][0] == {"address": "rA", "value": 5.0}
+    assert tx[0]["outputs"][0] == {"address": "rB", "value": 5.0}
+
+
 def test_client_offline(tmp_path):
     url = "https://example.test/resource"
     c = HttpClient(cache_dir=str(tmp_path), offline=False)

@@ -28,13 +28,13 @@ Metrics computed against known synthetic structure. The **clean** profile measur
 
 | Transactions | Cluster (s) | Mixer (s) | Peel (s) | Build graph (s) | Total (s) | Tx/s |
 |---:|---:|---:|---:|---:|---:|---:|
-| 2,000 | 0.0027 | 0.0002 | 0.0008 | 0.0183 | 0.0221 | 90,618 |
-| 10,000 | 0.015 | 0.0014 | 0.007 | 0.1076 | 0.131 | 76,363 |
-| 40,000 | 0.0744 | 0.0066 | 0.0267 | 0.5772 | 0.685 | 58,392 |
+| 2,000 | 0.0029 | 0.0002 | 0.0009 | 0.0174 | 0.0213 | 93,846 |
+| 10,000 | 0.0272 | 0.0016 | 0.0044 | 0.1035 | 0.1367 | 73,133 |
+| 40,000 | 0.0696 | 0.0064 | 0.0261 | 0.5348 | 0.6368 | 62,811 |
 
 ## Intelligence source coverage
 
-- **48 integrated sources** (46 keyless, 18 with normalized parsers)
+- **48 integrated sources** (46 keyless, 34 with normalized parsers)
 - **16 blockchains** covered: algorand, arbitrum, avalanche, base, bitcoin, bitcoin-cash, bsc, dogecoin, ethereum, litecoin, monero, optimism, polygon, solana, tron, xrpl
 - By category: blockchain-explorer=20, chain-registry=2, sanctions=6, threat-intel=12, tor-infra=4, vuln-intel=4
 

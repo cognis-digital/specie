@@ -20,6 +20,7 @@ _NORMALIZED = {
     "sslbl_csv", "urlhaus_csv", "threatfox_csv", "raw_iplist",
     "ransomwhere_json", "cisa_kev_json", "esplora",
     "blockscout_txlist", "evm_rpc", "solana_rpc",
+    "blockchain_info", "tron_account_tx", "xrpl_account_tx",
 }
 
 _RAW = [
@@ -86,7 +87,7 @@ _RAW = [
     ("btc_mempool", "blockchain-explorer", ["bitcoin"], "https://mempool.space/api/address/{addr}/txs", True,
      "transaction", "esplora", "https://mempool.space/docs/api"),
     ("btc_blockchain_info", "blockchain-explorer", ["bitcoin"], "https://blockchain.info/rawaddr/{addr}", True,
-     "transaction", "raw_json", "https://www.blockchain.com/explorer/api"),
+     "transaction", "blockchain_info", "https://www.blockchain.com/explorer/api"),
     ("blockchair_btc", "blockchain-explorer", ["bitcoin"], "https://api.blockchair.com/bitcoin/dashboards/address/{addr}", True,
      "transaction", "raw_json", "https://blockchair.com/api/docs"),
     ("ltc_esplora", "blockchain-explorer", ["litecoin"], "https://litecoinspace.org/api/address/{addr}/txs", True,
@@ -115,10 +116,10 @@ _RAW = [
      "transaction", "evm_rpc", "https://docs.avax.network"),
     ("solana_rpc", "blockchain-explorer", ["solana"], "https://api.mainnet-beta.solana.com", True,
      "transaction", "solana_rpc", "https://docs.solana.com/api"),
-    ("tron_trongrid", "blockchain-explorer", ["tron"], "https://api.trongrid.io", True,
-     "transaction", "raw_json", "https://developers.tron.network"),
-    ("xrpl_data", "blockchain-explorer", ["xrpl"], "https://data.xrplf.org/v1", True,
-     "transaction", "raw_json", "https://xrpl.org"),
+    ("tron_trongrid", "blockchain-explorer", ["tron"], "https://api.trongrid.io/v1/accounts/{addr}/transactions", True,
+     "transaction", "tron_account_tx", "https://developers.tron.network"),
+    ("xrpl_rpc", "blockchain-explorer", ["xrpl"], "https://s1.ripple.com:51234/", True,
+     "transaction", "xrpl_account_tx", "https://xrpl.org/account_tx.html"),
     ("algorand_algonode", "blockchain-explorer", ["algorand"], "https://mainnet-idx.algonode.cloud/v2/accounts/{addr}/transactions", True,
      "transaction", "raw_json", "https://algonode.io"),
     # ---- Chain registries ----

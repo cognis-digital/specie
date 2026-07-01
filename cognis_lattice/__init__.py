@@ -8,7 +8,7 @@ STIX 2.1 intelligence products for law-enforcement sharing.
 This is dual-use security software; use only within lawful authority.
 """
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
 __all__ = [
     "model",
     "confidence",

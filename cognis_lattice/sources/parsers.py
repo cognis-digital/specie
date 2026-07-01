@@ -274,3 +274,68 @@ def solana_signatures(content, source="solana_rpc") -> list:
     return [{"signature": r.get("signature"), "slot": r.get("slot"),
              "block_time": r.get("blockTime"), "err": r.get("err")}
             for r in res if isinstance(r, dict)]
+
+
+def blockchain_info(content, address="", chain="bitcoin", source="btc_blockchain_info") -> list:
+    """blockchain.info /rawaddr JSON -> Lattice transactions (values in sats)."""
+    txs = []
+    try:
+        data = json.loads(_text(content))
+    except json.JSONDecodeError:
+        return txs
+    for t in data.get("txs", []):
+        ins = []
+        for vin in t.get("inputs", []):
+            po = vin.get("prev_out") or {}
+            if po.get("addr"):
+                ins.append({"address": po["addr"], "value": round((po.get("value") or 0) / 1e8, 8)})
+        outs = []
+        for o in t.get("out", []):
+            if o.get("addr"):
+                outs.append({"address": o["addr"], "value": round((o.get("value") or 0) / 1e8, 8)})
+        txs.append({"txid": t.get("hash"), "asset": chain,
+                    "timestamp": t.get("time"), "inputs": ins, "outputs": outs})
+    return txs
+
+
+def tron_account_tx(content, address="", chain="tron", source="tron_trongrid") -> list:
+    """TronGrid account transactions -> Lattice transactions (TRX in sun/1e6)."""
+    txs = []
+    try:
+        data = json.loads(_text(content))
+    except json.JSONDecodeError:
+        return txs
+    for t in data.get("data", []):
+        for c in (t.get("raw_data") or {}).get("contract", []):
+            val = (c.get("parameter") or {}).get("value") or {}
+            owner, to, amt = val.get("owner_address"), val.get("to_address"), val.get("amount")
+            amount = round((amt or 0) / 1e6, 6) if amt else 0.0
+            if owner or to:
+                txs.append({"txid": t.get("txID"), "asset": chain,
+                            "timestamp": t.get("block_timestamp"),
+                            "inputs": [{"address": owner, "value": amount}] if owner else [],
+                            "outputs": [{"address": to, "value": amount}] if to else []})
+    return txs
+
+
+def xrpl_account_tx(content, address="", chain="xrpl", source="xrpl_rpc") -> list:
+    """rippled account_tx JSON-RPC -> Lattice transactions (Payment types; XRP in drops/1e6)."""
+    txs = []
+    try:
+        res = (json.loads(_text(content)) or {}).get("result") or {}
+    except json.JSONDecodeError:
+        return txs
+    for item in res.get("transactions", []):
+        tx = item.get("tx") or item.get("tx_json") or {}
+        acct, dest, amt = tx.get("Account"), tx.get("Destination"), tx.get("Amount")
+        value = 0.0
+        if isinstance(amt, str):
+            try:
+                value = round(int(amt) / 1e6, 6)
+            except ValueError:
+                value = 0.0
+        if acct or dest:
+            txs.append({"txid": tx.get("hash"), "asset": chain, "timestamp": tx.get("date"),
+                        "inputs": [{"address": acct, "value": value}] if acct else [],
+                        "outputs": [{"address": dest, "value": value}] if dest else []})
+    return txs

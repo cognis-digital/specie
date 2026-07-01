@@ -83,6 +83,20 @@ def fetch_onchain(name: str, client, address: str = None, block: str = "latest")
         payload = {"jsonrpc": "2.0", "id": 1, "method": "getSignaturesForAddress",
                    "params": [address, {"limit": 25}]}
         return parsers.solana_signatures(client.post(src["url"], payload), source=name)
+    if p == "xrpl_account_tx":
+        if not address:
+            raise ValueError("xrpl requires an address")
+        payload = {"method": "account_tx",
+                   "params": [{"account": address, "limit": 25,
+                               "ledger_index_min": -1, "ledger_index_max": -1}]}
+        return parsers.xrpl_account_tx(client.post(src["url"], payload), address=address, chain=chain0)
+    if p in ("tron_account_tx", "blockchain_info"):
+        if not address:
+            raise ValueError(f"{name} requires an address")
+        url = src["url"].replace("{addr}", address)
+        data = client.get(url)
+        fn = parsers.tron_account_tx if p == "tron_account_tx" else parsers.blockchain_info
+        return fn(data, address=address, chain=chain0)
     return fetch(name, client, address=address)
 
 

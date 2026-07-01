@@ -162,7 +162,8 @@ def cmd_sources_intel(args):
 
 def cmd_sources_address(args):
     client = HttpClient(cache_dir=args.cache, offline=args.offline)
-    onchain = ("esplora", "blockscout_txlist", "solana_rpc")
+    onchain = ("esplora", "blockscout_txlist", "solana_rpc",
+               "xrpl_account_tx", "tron_account_tx", "blockchain_info")
     cands = [s for s in sreg.list_sources(chain=args.chain) if s["parser"] in onchain]
     if not cands:
         chains = sorted({c for s in sreg.list_sources() if s["parser"] in onchain for c in s["chains"]})

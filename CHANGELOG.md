@@ -3,6 +3,15 @@
 All notable changes to Cognis Lattice are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] — 2026-07-01
+
+### Added
+- More normalized on-chain tracing parsers: **XRPL** (rippled `account_tx`),
+  **Tron** (TronGrid account transactions), and **blockchain.info** (`rawaddr`).
+  Lattice now normalizes live transactions across BTC/LTC (Esplora + blockchain.info),
+  Ethereum/EVM (Blockscout + JSON-RPC), Solana (signatures), XRPL, and Tron —
+  21 sources with normalized parsers.
+
 ## [0.2.1] — 2026-07-01
 
 ### Added
