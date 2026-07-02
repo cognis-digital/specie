@@ -15,6 +15,7 @@ from . import __version__
 from . import chain as chainmod
 from . import fusion as fusionmod
 from . import netattr as netmod
+from . import misp as mispmod
 from . import report as reportmod
 from . import sanctions as sancmod
 from . import stix as stixmod
@@ -56,6 +57,10 @@ def cmd_demo(args):
         with open(args.stix, "w", encoding="utf-8") as f:
             f.write(stixmod.to_json(stixmod.bundle_from_graph(g, tas)))
         print(f"\n[+] STIX 2.1 bundle -> {args.stix}")
+    if args.misp:
+        with open(args.misp, "w", encoding="utf-8") as f:
+            f.write(mispmod.to_json(mispmod.event_from_graph(g, tas)))
+        print(f"[+] MISP event -> {args.misp}")
     if args.json:
         with open(args.json, "w", encoding="utf-8") as f:
             f.write(reportmod.render_json(g, tas, extras))
@@ -113,6 +118,9 @@ def cmd_fuse(args):
     if args.stix:
         with open(args.stix, "w", encoding="utf-8") as f:
             f.write(stixmod.to_json(stixmod.bundle_from_graph(g, tas)))
+    if args.misp:
+        with open(args.misp, "w", encoding="utf-8") as f:
+            f.write(mispmod.to_json(mispmod.event_from_graph(g, tas)))
     if args.out:
         with open(args.out, "w", encoding="utf-8") as f:
             f.write(reportmod.render_json(g, tas))
@@ -170,16 +178,17 @@ def cmd_sources_address(args):
         print(f"no address-tracing explorer for chain '{args.chain}' (try: {', '.join(chains)})")
         return 1
     src = cands[0]
-    res = sreg.fetch_onchain(src["name"], client, address=args.address)
     if src["parser"] == "solana_rpc":
-        print(f"[{src['name']}] {len(res)} signatures for {args.address}")
-        print(json.dumps(res[:5], indent=2))
+        txs = sreg.fetch_solana_txs(client, args.address, src["name"])
+        print(f"[{src['name']}] {len(txs)} transactions (full) for {args.address}")
+        res = txs
     else:
+        res = sreg.fetch_onchain(src["name"], client, address=args.address)
         print(f"[{src['name']}] {len(res)} transactions for {args.address}")
-        if res:
-            clusters, _ = chainmod.common_input_clustering(res)
-            print(f"wallet clusters (common-input heuristic): {len(clusters)}")
-            print(json.dumps(res[:2], indent=2))
+    if res:
+        clusters, _ = chainmod.common_input_clustering(res)
+        print(f"wallet clusters (common-input heuristic): {len(clusters)}")
+        print(json.dumps(res[:2], indent=2))
     return 0
 
 
@@ -193,6 +202,7 @@ def build_parser():
 
     d = sub.add_parser("demo", help="run end-to-end demo on bundled sample data")
     d.add_argument("--stix", help="write STIX 2.1 bundle to this path")
+    d.add_argument("--misp", help="write MISP event to this path")
     d.add_argument("--json", help="write JSON intelligence product to this path")
     d.set_defaults(func=cmd_demo)
 
@@ -228,6 +238,7 @@ def build_parser():
     f.add_argument("--sdn")
     f.add_argument("--out", help="write JSON product to this path")
     f.add_argument("--stix", help="write STIX 2.1 bundle to this path")
+    f.add_argument("--misp", help="write MISP event to this path")
     f.set_defaults(func=cmd_fuse)
 
     sl = sub.add_parser("sources-list", help="list integrated intelligence sources")

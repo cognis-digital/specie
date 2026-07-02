@@ -18,6 +18,7 @@ PARSERS = {
     "cisa_kev_json": parsers.cisa_kev_json,
     "esplora": parsers.esplora_txs,
     "blockscout_txlist": parsers.blockscout_txlist,
+    "raw_urls": parsers.raw_urls,
 }
 
 _BY_NAME = {s["name"]: s for s in CATALOG}
@@ -98,6 +99,26 @@ def fetch_onchain(name: str, client, address: str = None, block: str = "latest")
         fn = parsers.tron_account_tx if p == "tron_account_tx" else parsers.blockchain_info
         return fn(data, address=address, chain=chain0)
     return fetch(name, client, address=address)
+
+
+def fetch_solana_txs(client, address: str, name: str = "solana_rpc", limit: int = 8) -> list:
+    """Two-phase Solana trace: getSignaturesForAddress, then getTransaction per
+    signature, normalized to Lattice transactions via balance deltas."""
+    src = get_source(name)
+    sig_payload = {"jsonrpc": "2.0", "id": 1, "method": "getSignaturesForAddress",
+                   "params": [address, {"limit": limit}]}
+    sigs = parsers.solana_signatures(client.post(src["url"], sig_payload), source=name)
+    txs = []
+    for s in sigs:
+        if not s.get("signature"):
+            continue
+        tx_payload = {"jsonrpc": "2.0", "id": 1, "method": "getTransaction",
+                      "params": [s["signature"], {"encoding": "json",
+                                                   "maxSupportedTransactionVersion": 0}]}
+        tx = parsers.solana_tx(client.post(src["url"], tx_payload), chain="solana", source=name)
+        if tx:
+            txs.append(tx)
+    return txs
 
 
 def stats() -> dict:

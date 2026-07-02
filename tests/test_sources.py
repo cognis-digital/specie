@@ -154,6 +154,32 @@ def test_xrpl_dispatch():
     assert tx[0]["outputs"][0] == {"address": "rB", "value": 5.0}
 
 
+SOL_TX = ('{"jsonrpc":"2.0","result":{"blockTime":1700000000,'
+          '"transaction":{"signatures":["sig1"],"message":{"accountKeys":["Sender","Receiver"]}},'
+          '"meta":{"preBalances":[5000000000,1000000000],"postBalances":[3000000000,3000000000]}}}')
+
+
+class SolClient:
+    def post(self, url, payload):
+        if payload.get("method") == "getSignaturesForAddress":
+            return SOLANA_SIGS.encode()
+        return SOL_TX.encode()
+
+
+def test_openphish_urls_parser():
+    inds = parsers.raw_urls("http://evil.example/a\nnot-a-url\nhttps://evil.example/b")
+    assert {i.value for i in inds} == {"http://evil.example/a", "https://evil.example/b"}
+    assert all(i.kind == "url" for i in inds)
+
+
+def test_solana_full_tx_from_balance_deltas():
+    txs = registry.fetch_solana_txs(SolClient(), "Sender")
+    assert len(txs) == 2  # two signatures
+    tx = txs[0]
+    assert tx["inputs"][0] == {"address": "Sender", "value": 2.0}
+    assert tx["outputs"][0] == {"address": "Receiver", "value": 2.0}
+
+
 def test_client_offline(tmp_path):
     url = "https://example.test/resource"
     c = HttpClient(cache_dir=str(tmp_path), offline=False)

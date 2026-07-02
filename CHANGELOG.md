@@ -3,6 +3,19 @@
 All notable changes to Cognis Lattice are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] — 2026-07-02
+
+### Added
+- **MISP event export** (`misp.py`) alongside STIX 2.1 — Attributes (btc/eth/xmr,
+  ip-dst) + Tags (cognis:lattice, tlp:amber, ofac:sanctioned), deterministic
+  UUIDv5. CLI `--misp` on `demo` and `fuse`.
+- **Full Solana transaction tracing** — `getTransaction` per signature, SOL
+  transfers inferred from pre/post lamport balance deltas → Lattice transactions
+  (`fetch_solana_txs`); `sources-address --chain solana` now returns full txs.
+- **8 more feeds** (source catalog now 56, 54 keyless, 41 normalized): OpenPhish,
+  PhishTank, DShield, Talos, Botvrij, Binary Defense, GreenSnow, UN SC sanctions.
+  New `raw_urls` parser for URL feeds.
+
 ## [0.3.0] — 2026-07-01
 
 ### Added

@@ -276,6 +276,47 @@ def solana_signatures(content, source="solana_rpc") -> list:
             for r in res if isinstance(r, dict)]
 
 
+def raw_urls(content, source="raw_urls", tags=None) -> list:
+    """One-URL-per-line feeds (e.g. OpenPhish)."""
+    tags = tags or ["phishing"]
+    out = []
+    for line in _text(content).splitlines():
+        line = line.strip()
+        if line.startswith("http://") or line.startswith("https://"):
+            out.append(Indicator("url", line, source, tags=list(tags)))
+    return out
+
+
+def solana_tx(content, chain="solana", source="solana_rpc"):
+    """A single getTransaction result -> one Lattice transaction, inferring
+    SOL transfers from pre/post lamport balance deltas (lamports/1e9)."""
+    try:
+        res = (json.loads(_text(content)) or {}).get("result") or {}
+    except json.JSONDecodeError:
+        return None
+    if not res:
+        return None
+    meta = res.get("meta") or {}
+    msg = (res.get("transaction") or {}).get("message") or {}
+    keys = msg.get("accountKeys") or []
+    pre, post = meta.get("preBalances") or [], meta.get("postBalances") or []
+    ins, outs = [], []
+    for i, k in enumerate(keys):
+        if i >= len(pre) or i >= len(post):
+            continue
+        addr = k if isinstance(k, str) else (k.get("pubkey") if isinstance(k, dict) else None)
+        if not addr:
+            continue
+        delta = (post[i] - pre[i]) / 1e9
+        if delta < 0:
+            ins.append({"address": addr, "value": round(-delta, 9)})
+        elif delta > 0:
+            outs.append({"address": addr, "value": round(delta, 9)})
+    sigs = (res.get("transaction") or {}).get("signatures") or [None]
+    return {"txid": sigs[0], "asset": chain, "timestamp": res.get("blockTime"),
+            "inputs": ins, "outputs": outs}
+
+
 def blockchain_info(content, address="", chain="bitcoin", source="btc_blockchain_info") -> list:
     """blockchain.info /rawaddr JSON -> Lattice transactions (values in sats)."""
     txs = []

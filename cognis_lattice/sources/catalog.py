@@ -20,7 +20,7 @@ _NORMALIZED = {
     "sslbl_csv", "urlhaus_csv", "threatfox_csv", "raw_iplist",
     "ransomwhere_json", "cisa_kev_json", "esplora",
     "blockscout_txlist", "evm_rpc", "solana_rpc",
-    "blockchain_info", "tron_account_tx", "xrpl_account_tx",
+    "blockchain_info", "tron_account_tx", "xrpl_account_tx", "raw_urls",
 }
 
 _RAW = [
@@ -72,6 +72,22 @@ _RAW = [
      "ipv4", "raw_iplist", "https://www.spamhaus.org/drop/"),
     ("greynoise_riot", "threat-intel", [], "https://api.greynoise.io/v3/community/", False,
      "ipv4", "raw_json", "https://www.greynoise.io"),
+    ("openphish", "threat-intel", [], "https://openphish.com/feed.txt", True,
+     "url", "raw_urls", "https://openphish.com"),
+    ("phishtank", "threat-intel", [], "http://data.phishtank.com/data/online-valid.csv", True,
+     "url", "urlhaus_csv", "https://phishtank.org"),
+    ("dshield_block", "threat-intel", [], "https://feeds.dshield.org/block.txt", True,
+     "ipv4", "raw_iplist", "https://www.dshield.org"),
+    ("talos_blacklist", "threat-intel", [], "https://talosintelligence.com/documents/ip-blacklist", True,
+     "ipv4", "raw_iplist", "https://talosintelligence.com"),
+    ("botvrij_ip", "threat-intel", [], "https://www.botvrij.eu/data/ioclist.ip-dst.raw", True,
+     "ipv4", "raw_iplist", "https://www.botvrij.eu"),
+    ("binarydefense", "threat-intel", [], "https://www.binarydefense.com/banlist.txt", True,
+     "ipv4", "raw_iplist", "https://www.binarydefense.com"),
+    ("greensnow", "threat-intel", [], "https://blocklist.greensnow.co/greensnow.txt", True,
+     "ipv4", "raw_iplist", "https://greensnow.co"),
+    ("un_sc_sanctions", "sanctions", [], "https://scsanctions.un.org/resources/xml/en/consolidated.xml", True,
+     "name", "raw_json", "https://www.un.org/securitycouncil/content/un-sc-consolidated-list"),
     # ---- Vulnerability intel ----
     ("cisa_kev", "vuln-intel", [], "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json", True,
      "cve", "cisa_kev_json", "https://www.cisa.gov/kev"),

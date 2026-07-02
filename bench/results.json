@@ -103,43 +103,43 @@
     {
       "transactions": 2000,
       "clusters_found": 1,
-      "cluster_s": 0.0029,
-      "detect_mixer_s": 0.0002,
-      "detect_peel_s": 0.0009,
-      "build_graph_s": 0.0174,
-      "total_s": 0.0213,
-      "tx_per_s": 93846
+      "cluster_s": 0.0032,
+      "detect_mixer_s": 0.0004,
+      "detect_peel_s": 0.0012,
+      "build_graph_s": 0.022,
+      "total_s": 0.0269,
+      "tx_per_s": 74460
     },
     {
       "transactions": 10000,
       "clusters_found": 1,
-      "cluster_s": 0.0272,
+      "cluster_s": 0.0148,
       "detect_mixer_s": 0.0016,
-      "detect_peel_s": 0.0044,
-      "build_graph_s": 0.1035,
-      "total_s": 0.1367,
-      "tx_per_s": 73133
+      "detect_peel_s": 0.0048,
+      "build_graph_s": 0.1076,
+      "total_s": 0.1288,
+      "tx_per_s": 77623
     },
     {
       "transactions": 40000,
       "clusters_found": 1,
-      "cluster_s": 0.0696,
-      "detect_mixer_s": 0.0064,
-      "detect_peel_s": 0.0261,
-      "build_graph_s": 0.5348,
-      "total_s": 0.6368,
-      "tx_per_s": 62811
+      "cluster_s": 0.0773,
+      "detect_mixer_s": 0.0066,
+      "detect_peel_s": 0.0295,
+      "build_graph_s": 0.8039,
+      "total_s": 0.9172,
+      "tx_per_s": 43609
     }
   ],
   "sources": {
-    "total": 48,
-    "keyless": 46,
-    "integrated": 34,
+    "total": 56,
+    "keyless": 54,
+    "integrated": 41,
     "by_category": {
       "blockchain-explorer": 20,
       "chain-registry": 2,
-      "sanctions": 6,
-      "threat-intel": 12,
+      "sanctions": 7,
+      "threat-intel": 19,
       "tor-infra": 4,
       "vuln-intel": 4
     },

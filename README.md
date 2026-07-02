@@ -42,10 +42,11 @@ score and its rationale, exportable as STIX 2.1.
 
 ## Live intelligence sources (48 sources · 16 chains)
 
-Lattice integrates **48 counter-threat-finance / deanonymization sources** (46
-keyless) across **16 blockchains** — OFAC SDN & sanctions, abuse.ch/FireHOL/
-Spamhaus threat-intel, Tor/anonymizer infrastructure, and multi-chain explorers
-(BTC, ETH & EVM chains, Solana, Tron, XRPL, Algorand, LTC, DOGE, BCH). Keyless
+Lattice integrates **56 counter-threat-finance / deanonymization sources** (54
+keyless) across **16 blockchains** — OFAC/UN sanctions, abuse.ch/FireHOL/Spamhaus/
+OpenPhish/PhishTank/DShield/Talos threat-intel, Tor/anonymizer infrastructure, and
+multi-chain explorers with **live transaction tracing on BTC, LTC, ETH & EVM
+chains, Solana, XRPL, and Tron**. Findings export to **STIX 2.1 and MISP**. Keyless
 feeds pull live and cache to disk for **offline / air-gap** replay. See
 [`docs/SOURCES.md`](docs/SOURCES.md).
 
