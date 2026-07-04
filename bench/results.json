@@ -103,34 +103,98 @@
     {
       "transactions": 2000,
       "clusters_found": 1,
-      "cluster_s": 0.0041,
-      "detect_mixer_s": 0.0013,
-      "detect_peel_s": 0.0032,
-      "build_graph_s": 0.038,
-      "total_s": 0.0466,
-      "tx_per_s": 42955
+      "cluster_s": 0.0031,
+      "detect_mixer_s": 0.0004,
+      "detect_peel_s": 0.0013,
+      "build_graph_s": 0.0217,
+      "total_s": 0.0265,
+      "tx_per_s": 75565
     },
     {
       "transactions": 10000,
       "clusters_found": 1,
-      "cluster_s": 0.0379,
-      "detect_mixer_s": 0.0096,
-      "detect_peel_s": 0.0295,
-      "build_graph_s": 0.3117,
-      "total_s": 0.3888,
-      "tx_per_s": 25718
+      "cluster_s": 0.0182,
+      "detect_mixer_s": 0.0017,
+      "detect_peel_s": 0.0061,
+      "build_graph_s": 0.1272,
+      "total_s": 0.1532,
+      "tx_per_s": 65265
     },
     {
       "transactions": 40000,
       "clusters_found": 1,
-      "cluster_s": 0.1853,
-      "detect_mixer_s": 0.0334,
-      "detect_peel_s": 0.1221,
-      "build_graph_s": 1.5809,
-      "total_s": 1.9218,
-      "tx_per_s": 20814
+      "cluster_s": 0.0863,
+      "detect_mixer_s": 0.007,
+      "detect_peel_s": 0.0296,
+      "build_graph_s": 0.6095,
+      "total_s": 0.7323,
+      "tx_per_s": 54622
     }
   ],
+  "ctf_analytics": {
+    "dataset": {
+      "transfers": 95,
+      "typologies_planted": 10
+    },
+    "per_typology_recall": {
+      "structuring": {
+        "planted": 1,
+        "recovered": 1,
+        "recall": 1.0
+      },
+      "layering": {
+        "planted": 6,
+        "recovered": 6,
+        "recall": 1.0
+      },
+      "pass_through": {
+        "planted": 1,
+        "recovered": 1,
+        "recall": 1.0
+      },
+      "round_tripping": {
+        "planted": 4,
+        "recovered": 4,
+        "recall": 1.0
+      },
+      "trade_value_anomaly": {
+        "planted": 2,
+        "recovered": 2,
+        "recall": 1.0
+      },
+      "shell_nominee": {
+        "planted": 4,
+        "recovered": 4,
+        "recall": 1.0
+      },
+      "funnel_account": {
+        "planted": 1,
+        "recovered": 1,
+        "recall": 1.0
+      },
+      "burst_velocity": {
+        "planted": 1,
+        "recovered": 1,
+        "recall": 1.0
+      },
+      "dormancy_activation": {
+        "planted": 1,
+        "recovered": 1,
+        "recall": 1.0
+      },
+      "periodicity": {
+        "planted": 1,
+        "recovered": 1,
+        "recall": 1.0
+      }
+    },
+    "macro_recall": 1.0,
+    "entity_resolution": {
+      "true_merge_recovered": true,
+      "false_merge_groups": 0
+    },
+    "total_findings": 51
+  },
   "sources": {
     "total": 61,
     "keyless": 59,

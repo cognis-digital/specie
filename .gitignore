@@ -13,3 +13,7 @@ venv/
 out_*.json
 .cache/
 .DS_Store
+case_dashboard.html
+case_*.html
+bundle.stix.json
+product.json

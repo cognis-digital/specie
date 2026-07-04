@@ -10,7 +10,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from bench import benchmark, datagen, evaluate  # noqa: E402
+from bench import benchmark, datagen, evaluate, evaluate_ctf  # noqa: E402
 from cognis_lattice.sources import registry as sreg  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -31,8 +31,9 @@ def build_results():
         "system": platform.system(),
         "machine": platform.machine(),
     }
+    ctf = evaluate_ctf.evaluate()
     return {"accuracy": {"clean": clean, "noisy": noisy}, "performance": perf,
-            "sources": sreg.stats(), "environment": env}
+            "ctf_analytics": ctf, "sources": sreg.stats(), "environment": env}
 
 
 def render_md(res) -> str:
@@ -72,6 +73,25 @@ def render_md(res) -> str:
         L.append(f"| {r['transactions']:,} | {r['cluster_s']} | {r['detect_mixer_s']} | "
                  f"{r['detect_peel_s']} | {r['build_graph_s']} | {r['total_s']} | {r['tx_per_s']:,} |")
     L.append("")
+    ctf = res.get("ctf_analytics")
+    if ctf:
+        L.append("## Counter-threat-finance typology analytics (v0.5.0)\n")
+        L.append("Per-typology **entity recall** against planted ground truth on a "
+                 f"deterministic synthetic ledger ({ctf['dataset']['transfers']} transfers, "
+                 f"{ctf['dataset']['typologies_planted']} planted typologies). Recall = did we "
+                 "recover the entity planted to exhibit each pattern.\n")
+        L.append("| Typology | Planted | Recovered | Recall |")
+        L.append("|---|---:|---:|---:|")
+        for typ, m in ctf["per_typology_recall"].items():
+            L.append(f"| {typ} | {m['planted']} | {m['recovered']} | {m['recall']:.3f} |")
+        L.append(f"| **macro-average** | | | **{ctf['macro_recall']:.3f}** |")
+        L.append("")
+        er = ctf["entity_resolution"]
+        L.append(f"Entity resolution: intended duplicate pair recovered = "
+                 f"**{er['true_merge_recovered']}**, false-merge groups = "
+                 f"**{er['false_merge_groups']}** (numbered cohorts kept distinct). "
+                 f"Total findings raised: {ctf['total_findings']}.\n")
+
     s = res["sources"]
     L.append("## Intelligence source coverage\n")
     L.append(f"- **{s['total']} integrated sources** ({s['keyless']} keyless, "

@@ -23,5 +23,7 @@ jobs:
         run: python -m pip install --upgrade pip pytest
       - name: Run tests
         run: python -m pytest -q
-      - name: Verification suite (accuracy + performance)
+      - name: Verification suite (accuracy + performance + CTF typologies)
         run: python bench/run_all.py
+      - name: Run all example demos (each must exit 0)
+        run: python examples/run_all_demos.py

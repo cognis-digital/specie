@@ -28,9 +28,29 @@ Metrics computed against known synthetic structure. The **clean** profile measur
 
 | Transactions | Cluster (s) | Mixer (s) | Peel (s) | Build graph (s) | Total (s) | Tx/s |
 |---:|---:|---:|---:|---:|---:|---:|
-| 2,000 | 0.0041 | 0.0013 | 0.0032 | 0.038 | 0.0466 | 42,955 |
-| 10,000 | 0.0379 | 0.0096 | 0.0295 | 0.3117 | 0.3888 | 25,718 |
-| 40,000 | 0.1853 | 0.0334 | 0.1221 | 1.5809 | 1.9218 | 20,814 |
+| 2,000 | 0.0031 | 0.0004 | 0.0013 | 0.0217 | 0.0265 | 75,565 |
+| 10,000 | 0.0182 | 0.0017 | 0.0061 | 0.1272 | 0.1532 | 65,265 |
+| 40,000 | 0.0863 | 0.007 | 0.0296 | 0.6095 | 0.7323 | 54,622 |
+
+## Counter-threat-finance typology analytics (v0.5.0)
+
+Per-typology **entity recall** against planted ground truth on a deterministic synthetic ledger (95 transfers, 10 planted typologies). Recall = did we recover the entity planted to exhibit each pattern.
+
+| Typology | Planted | Recovered | Recall |
+|---|---:|---:|---:|
+| structuring | 1 | 1 | 1.000 |
+| layering | 6 | 6 | 1.000 |
+| pass_through | 1 | 1 | 1.000 |
+| round_tripping | 4 | 4 | 1.000 |
+| trade_value_anomaly | 2 | 2 | 1.000 |
+| shell_nominee | 4 | 4 | 1.000 |
+| funnel_account | 1 | 1 | 1.000 |
+| burst_velocity | 1 | 1 | 1.000 |
+| dormancy_activation | 1 | 1 | 1.000 |
+| periodicity | 1 | 1 | 1.000 |
+| **macro-average** | | | **1.000** |
+
+Entity resolution: intended duplicate pair recovered = **True**, false-merge groups = **0** (numbered cohorts kept distinct). Total findings raised: 51.
 
 ## Intelligence source coverage
 

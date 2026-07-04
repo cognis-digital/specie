@@ -1,0 +1,26 @@
+# CodeQL configuration for Cognis Lattice.
+#
+# The analytics layer intentionally contains dual-use security terminology
+# (money-laundering typologies, sanctions screening) and deterministic synthetic
+# data generators. These are analytical/defensive and are not vulnerabilities.
+name: "Cognis Lattice CodeQL config"
+
+queries:
+  - uses: security-and-quality
+
+paths:
+  - cognis_lattice
+  - bench
+  - examples
+
+paths-ignore:
+  # Synthetic sample data and generated artifacts — not application code.
+  - data
+  - "**/*.stix.json"
+  - "**/case_*.html"
+  - tests
+
+# Notes for triage: findings in bench/ledgergen.py and bench/datagen.py that
+# reference `random` are deterministic synthetic-data generators (fixed seed),
+# not security-sensitive randomness. Deterministic UUIDv5 in stix.py/exports.py
+# is intentional for reproducible evidentiary output, not a weak-crypto issue.

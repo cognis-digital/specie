@@ -11,8 +11,12 @@ Deanonymization of Illicit Internet Activities for Counter-Threat Finance.**
 | De-mixing / de-tumbling with confidence | Mixer/CoinJoin detection + confidence-scored de-mix candidate linkage (honest ambiguity) | `chain` |
 | Real-time alerting on high-value/known-actor activity | Watchlist screening hooks over the fused graph (address/name/known-infra) | `sanctions`, `fusion` |
 | Unified IP + crypto threat-actor profiles | Connected-component fusion into one confidence-scored threat-actor graph | `fusion` |
-| Legally shareable products | Deterministic, provenance-tracked STIX 2.1 export | `stix` |
-| Compliance / self-hosting | Zero-dependency, offline/air-gap deployment; no data egress | whole package |
+| Illicit-finance typology detection | 8 typology detectors (structuring, layering, pass-through, round-tripping, trade-based value transfer, shell/nominee, sanctions-nexus, funnel-account), each explainable | `typologies` |
+| Temporal behavioural analytics | Burst/velocity, dormancy-then-activation, periodicity over the transfer graph | `temporal` |
+| Entity resolution & network segmentation | Fuzzy entity resolution, community detection, broker/centrality scoring, path-of-funds tracing | `network` |
+| Analyst decision support | Explainable entity/network risk scoring + SAR-style narrative case files (leads, not determinations) | `risk`, `casefile` |
+| Legally shareable products | Deterministic, provenance-tracked STIX 2.1 export (attribution graph and per-finding bundles); CSV/JSON interop; self-contained HTML case dashboard | `stix`, `exports`, `dashboard` |
+| Compliance / self-hosting | Zero-dependency, offline/air-gap deployment; no data egress; no bundled sanctions/PII data | whole package |
 
 ## TRL posture (honest)
 

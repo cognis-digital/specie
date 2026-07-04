@@ -3,6 +3,43 @@
 All notable changes to Cognis Lattice are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.0] — 2026-07-03
+
+### Added
+- **Counter-threat-finance analytics layer** operating on a general
+  account-to-account **transfer** model, additive to the existing attribution
+  engine (public API unchanged).
+- **8 illicit-finance typology detectors** (`typologies.py`): structuring,
+  layering, pass-through/rapid-movement, round-tripping, trade-based value
+  transfer anomaly, shell/nominee clustering, sanctions-nexus proximity
+  (operator-supplied watchlist — no bundled sanctions data), and funnel-account.
+  Each emits a transparent feature set + score + evidence.
+- **Temporal analytics** (`temporal.py`): burst/velocity, dormancy-then-activation,
+  and periodicity detection.
+- **Network analytics** (`network.py`): fuzzy entity resolution (Dice-bigram
+  similarity with a sequence-number guard), connected components, deterministic
+  label-propagation community detection, Brandes betweenness + broker scoring,
+  and path-of-funds tracing.
+- **Explainable risk scoring** (`risk.py`): per-entity and per-network risk via
+  weighted noisy-OR with a cross-typology diversity bonus; every score is fully
+  traceable to its contributing findings.
+- **SAR-style case builder** (`casefile.py`) — narrative case file clearly
+  labelled decision-support, not a determination.
+- **Interop exports** (`exports.py`): findings → JSON, CSV, and STIX 2.1
+  (indicator + note per finding, deterministic UUIDv5, `x_cognis_*` properties).
+- **Self-contained HTML case dashboard** (`dashboard.py`) — no external scripts,
+  stylesheets, fonts, or CDN dependencies.
+- **Shared `Finding` contract** (`findings.py`) with deterministic content-
+  addressed ids.
+- **New CLI commands**: `typologies`, `network`, `resolve`, `trace-funds`,
+  `temporal`, `risk`, and `case`.
+- **Synthetic ledger generator** with planted ground truth (`bench/ledgergen.py`)
+  and a CTF accuracy benchmark (`bench/evaluate_ctf.py`), gated in CI. Macro
+  entity recall = 1.00 across all 11 detectors; 0 false entity-resolution merges.
+- 10 runnable example demos (`examples/`) + a demo runner gating exit 0 in CI.
+- Docs: `docs/ANALYTICS.md`, `docs/TYPOLOGIES.md`, `docs/RISK.md`. CodeQL config
+  + workflow. Test suite grew from 48 to 176 tests.
+
 ## [0.4.1] — 2026-07-02
 
 ### Added

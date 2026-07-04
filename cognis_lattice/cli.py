@@ -19,6 +19,14 @@ from . import misp as mispmod
 from . import report as reportmod
 from . import sanctions as sancmod
 from . import stix as stixmod
+from . import casefile as casemod
+from . import dashboard as dashmod
+from . import exports as expmod
+from . import ledger as ledgermod
+from . import network as networkmod
+from . import risk as riskmod
+from . import temporal as tempmod
+from . import typologies as typmod
 from .sources import feeds as sfeeds
 from .sources import registry as sreg
 from .sources.client import HttpClient
@@ -192,6 +200,114 @@ def cmd_sources_address(args):
     return 0
 
 
+def _load_ledger(args):
+    txs = ledgermod.load_transfers(args.ledger)
+    watchlist = _load(args.watchlist) if getattr(args, "watchlist", None) else None
+    if getattr(args, "resolve", False):
+        mapping = networkmod.resolve_entities(ledgermod.entities(txs))
+        txs = networkmod.apply_resolution(txs, mapping)
+    return txs, watchlist
+
+
+def cmd_typologies(args):
+    txs, watchlist = _load_ledger(args)
+    enabled = args.only.split(",") if args.only else None
+    findings = typmod.run_all(txs, watchlist=watchlist, enabled=enabled)
+    findings += tempmod.run_all(txs, enabled=enabled)
+    out = riskmod.prioritized_findings(findings, top=args.top)
+    if args.csv:
+        with open(args.csv, "w", encoding="utf-8", newline="") as f:
+            f.write(expmod.findings_csv(findings))
+        print(f"[+] findings CSV -> {args.csv}")
+    if args.stix:
+        with open(args.stix, "w", encoding="utf-8") as f:
+            f.write(expmod.stix_json(findings))
+        print(f"[+] findings STIX 2.1 -> {args.stix}")
+    if not args.csv and not args.stix:
+        _emit(out)
+    return 0
+
+
+def cmd_network(args):
+    txs, _ = _load_ledger(args)
+    _emit({
+        "components": networkmod.connected_components(txs),
+        "communities": networkmod.community_detection(txs),
+        "top_brokers": networkmod.top_brokers(txs, k=args.top),
+    })
+    return 0
+
+
+def cmd_resolve(args):
+    txs = ledgermod.load_transfers(args.ledger)
+    mapping = networkmod.resolve_entities(ledgermod.entities(txs), threshold=args.threshold)
+    merges = {}
+    for original, canon in mapping.items():
+        if original != canon:
+            merges.setdefault(canon, []).append(original)
+    _emit({"merges": {k: sorted(v) for k, v in merges.items()},
+           "entities_before": len(mapping),
+           "entities_after": len(set(mapping.values()))})
+    return 0
+
+
+def cmd_trace_funds(args):
+    txs, _ = _load_ledger(args)
+    paths = networkmod.path_of_funds(txs, args.src, args.dst,
+                                     max_paths=args.max_paths, max_len=args.max_len)
+    _emit({"src": args.src, "dst": args.dst, "paths": paths})
+    return 0
+
+
+def cmd_temporal(args):
+    txs, _ = _load_ledger(args)
+    findings = tempmod.run_all(txs)
+    _emit(riskmod.prioritized_findings(findings))
+    return 0
+
+
+def cmd_risk(args):
+    txs, watchlist = _load_ledger(args)
+    findings = typmod.run_all(txs, watchlist=watchlist) + tempmod.run_all(txs)
+    comps = networkmod.connected_components(txs)
+    _emit({"entity_risk": riskmod.score_entities(findings),
+           "network_risk": riskmod.score_network(findings, comps)})
+    return 0
+
+
+def cmd_case(args):
+    txs, watchlist = _load_ledger(args)
+    case = casemod.build_case(txs, watchlist=watchlist, resolve=not args.no_resolve)
+    if args.json:
+        with open(args.json, "w", encoding="utf-8") as f:
+            f.write(casemod.render_json(case))
+        print(f"[+] case JSON -> {args.json}")
+    if args.html:
+        with open(args.html, "w", encoding="utf-8") as f:
+            f.write(dashmod.render_html(case))
+        print(f"[+] case dashboard (HTML) -> {args.html}")
+    if args.stix:
+        with open(args.stix, "w", encoding="utf-8") as f:
+            f.write(expmod.stix_json(case["findings"]))
+        print(f"[+] findings STIX 2.1 -> {args.stix}")
+    if args.csv:
+        with open(args.csv, "w", encoding="utf-8", newline="") as f:
+            f.write(expmod.findings_csv(case["findings"]))
+        print(f"[+] findings CSV -> {args.csv}")
+    if not any([args.json, args.html, args.stix, args.csv]):
+        print(casemod.render_text(case))
+    return 0
+
+
+def _add_ledger_args(sp, watchlist=True, resolve=True):
+    sp.add_argument("--ledger", required=True, help="path to transfers JSON")
+    if watchlist:
+        sp.add_argument("--watchlist", help="path to operator watchlist JSON (list of ids)")
+    if resolve:
+        sp.add_argument("--resolve", action="store_true",
+                        help="apply fuzzy entity resolution before analysis")
+
+
 def build_parser():
     p = argparse.ArgumentParser(
         prog="cognis-lattice",
@@ -270,6 +386,51 @@ def build_parser():
     sa.add_argument("--offline", action="store_true")
     sa.add_argument("--cache", default=".cache")
     sa.set_defaults(func=cmd_sources_address)
+
+    # --- Counter-threat-finance analytics layer (v0.5.0) ---
+    ty = sub.add_parser("typologies", help="run illicit-finance typology detectors")
+    _add_ledger_args(ty)
+    ty.add_argument("--only", help="comma-separated typologies to run")
+    ty.add_argument("--top", type=int, help="limit to top-N findings by score")
+    ty.add_argument("--csv", help="write findings as CSV to this path")
+    ty.add_argument("--stix", help="write findings as STIX 2.1 to this path")
+    ty.set_defaults(func=cmd_typologies)
+
+    nw = sub.add_parser("network", help="components, communities, broker centrality")
+    _add_ledger_args(nw, watchlist=False)
+    nw.add_argument("--top", type=int, default=10, help="top-N brokers")
+    nw.set_defaults(func=cmd_network)
+
+    rv = sub.add_parser("resolve", help="fuzzy entity resolution (merge duplicates)")
+    rv.add_argument("--ledger", required=True)
+    rv.add_argument("--threshold", type=float, default=0.82)
+    rv.set_defaults(func=cmd_resolve)
+
+    tf = sub.add_parser("trace-funds", help="path-of-funds between two entities")
+    _add_ledger_args(tf, watchlist=False)
+    tf.add_argument("--src", required=True)
+    tf.add_argument("--dst", required=True)
+    tf.add_argument("--max-paths", type=int, default=3)
+    tf.add_argument("--max-len", type=int, default=8)
+    tf.set_defaults(func=cmd_trace_funds)
+
+    tp = sub.add_parser("temporal", help="burst/dormancy/periodicity analytics")
+    _add_ledger_args(tp, watchlist=False)
+    tp.set_defaults(func=cmd_temporal)
+
+    rk = sub.add_parser("risk", help="explainable entity + network risk scoring")
+    _add_ledger_args(rk)
+    rk.set_defaults(func=cmd_risk)
+
+    ca = sub.add_parser("case", help="build a SAR-style case file / dashboard")
+    _add_ledger_args(ca, resolve=False)
+    ca.add_argument("--no-resolve", action="store_true",
+                    help="skip fuzzy entity resolution (on by default)")
+    ca.add_argument("--json", help="write case JSON to this path")
+    ca.add_argument("--html", help="write self-contained HTML dashboard to this path")
+    ca.add_argument("--stix", help="write findings STIX 2.1 to this path")
+    ca.add_argument("--csv", help="write findings CSV to this path")
+    ca.set_defaults(func=cmd_case)
     return p
 
 

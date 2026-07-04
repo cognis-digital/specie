@@ -7,7 +7,7 @@
 <img alt="license" src="https://img.shields.io/badge/license-COCL--1.0-6D28D9">
 <img alt="python" src="https://img.shields.io/badge/python-3.9%2B-6D28D9">
 <img alt="deps" src="https://img.shields.io/badge/dependencies-none%20(stdlib)-6D28D9">
-<img alt="status" src="https://img.shields.io/badge/status-v0.1.0-6D28D9">
+<img alt="status" src="https://img.shields.io/badge/status-v0.5.0-6D28D9">
 </p>
 
 ---
@@ -37,6 +37,16 @@ score and its rationale, exportable as STIX 2.1.
 - 🧩 **Fusion & confidence** — connected-component threat-actor resolution with a
   noisy-OR confidence model (HIGH / MODERATE / LOW + rationale).
 - 📤 **STIX 2.1 export** — deterministic, reproducible bundles for partner sharing.
+- 🕵️ **Illicit-finance typology analytics** *(v0.5.0)* — structuring, layering,
+  pass-through, round-tripping, trade-based value transfer, shell/nominee
+  clustering, sanctions-nexus, and funnel-account detectors, each with
+  transparent features + a score + evidence.
+- 🧠 **Network + temporal analytics** *(v0.5.0)* — fuzzy entity resolution,
+  community detection, broker/centrality scoring, path-of-funds tracing, plus
+  burst/dormancy/periodicity detection.
+- 📁 **Risk scoring + SAR-style case files** *(v0.5.0)* — explainable entity &
+  network risk, a narrative case builder (decision-support, not a
+  determination), and a self-contained HTML case dashboard (no CDN deps).
 - 🔒 **Self-hostable / offline** — pure Python stdlib, **zero dependencies**,
   air-gap ready. Your data never leaves your enclave.
 
@@ -58,12 +68,42 @@ cognis-lattice sources-intel --cache .cache           # fuse feeds
 cognis-lattice sources-address --chain bitcoin --address <ADDR>   # live on-chain trace
 ```
 
+## Counter-threat-finance analytics (v0.5.0)
+
+Beyond crypto/infra attribution, Lattice now analyses generic **account-to-account
+transfers** for illicit-finance typologies and builds explainable, scored,
+exportable cases. All stdlib, offline, deterministic.
+
+```bash
+# Run every typology + temporal detector, top 10 findings by score
+cognis-lattice typologies --ledger data/sample_ledger.json \
+                          --watchlist data/sample_watchlist.json --top 10
+
+# Network analytics: components, communities, broker centrality
+cognis-lattice network --ledger data/sample_ledger.json
+
+# Trace the path of funds between two entities
+cognis-lattice trace-funds --ledger data/sample_ledger.json --src LAYER_SRC --dst LAYER_H4
+
+# Full SAR-style case file + self-contained HTML dashboard + STIX/CSV
+cognis-lattice case --ledger data/sample_ledger.json --watchlist data/sample_watchlist.json \
+                    --json case.json --html case.html --stix findings.stix.json --csv findings.csv
+```
+
+Detectors: **structuring, layering, pass-through, round-tripping, trade-based
+value transfer, shell/nominee clustering, sanctions-nexus, funnel-account**, plus
+**burst/dormancy/periodicity**. Each emits a transparent feature set, a score,
+and evidence. See [`docs/ANALYTICS.md`](docs/ANALYTICS.md),
+[`docs/TYPOLOGIES.md`](docs/TYPOLOGIES.md), and [`docs/RISK.md`](docs/RISK.md).
+Sanctions/watchlist data is **operator-supplied — none is bundled.**
+
 ## Quick start
 
 ```bash
 git clone https://github.com/cognis-digital/cognis-lattice
 cd cognis-lattice
 python -m cognis_lattice demo --stix bundle.stix.json --json product.json
+python examples/run_all_demos.py    # 10 runnable analytics demos
 ```
 
 Example (bundled synthetic data) produces one HIGH-confidence threat actor
@@ -121,6 +161,12 @@ noisy profile injects a cross-actor confounder to show honest degradation):
 | Peel-chain / trace recall | 1.00 | 1.00 |
 | STIX determinism | ✓ identical across runs | ✓ |
 
+**Counter-threat-finance typologies (v0.5.0):** macro-average **entity recall =
+1.00** across all 11 typology/temporal detectors against planted ground truth on
+a deterministic synthetic ledger (95 transfers); fuzzy entity resolution recovers
+the one intended duplicate pair with **0 false merges** (numbered cohorts kept
+distinct). Full per-typology table in [`RESULTS.md`](RESULTS.md).
+
 Throughput (single-thread, stdlib only): **~52k–91k transactions/sec** for
 clustering + mixer + peel + graph build (2k→40k tx). De-mix honestly reports mean
 ambiguity 4.0 and reduced confidence 0.37 on equal-value mixing.
@@ -128,8 +174,9 @@ ambiguity 4.0 and reduced confidence 0.37 on equal-value mixing.
 ## Testing
 
 ```bash
-python -m pytest -q      # 40 tests (analytics + verification + source integration)
-python bench/run_all.py  # regenerate RESULTS.md (incl. source coverage)
+python -m pytest -q             # 176 tests (attribution + CTF analytics + verification)
+python bench/run_all.py         # regenerate RESULTS.md (incl. typology recall + source coverage)
+python examples/run_all_demos.py  # 10 runnable demos, each exits 0
 ```
 
 ## License
