@@ -1,6 +1,6 @@
 # Intelligence Sources
 
-Cognis Lattice integrates **48 counter-threat-finance / deanonymization sources**
+Specie integrates **48 counter-threat-finance / deanonymization sources**
 (46 keyless) across **16 blockchains**. Keyless sources fetch live over HTTP and
 cache to disk, so the platform also runs fully offline / air-gapped.
 
@@ -29,21 +29,21 @@ fetch raw JSON (full normalization is incremental, tracked per source via the
 ## Usage
 
 ```bash
-cognis-lattice sources-list --category threat-intel      # browse
-cognis-lattice sources-list --chain bitcoin
-cognis-lattice sources-stats                              # coverage json
+specie sources-list --category threat-intel      # browse
+specie sources-list --chain bitcoin
+specie sources-stats                              # coverage json
 
-cognis-lattice sources-fetch feodo_ipblocklist           # live C2 IPs
-cognis-lattice sources-fetch ofac_sdn                     # live sanctioned wallets
-cognis-lattice sources-intel --cache .cache              # fuse feeds -> counts
-cognis-lattice sources-intel --offline --cache .cache    # air-gapped replay
+specie sources-fetch feodo_ipblocklist           # live C2 IPs
+specie sources-fetch ofac_sdn                     # live sanctioned wallets
+specie sources-intel --cache .cache              # fuse feeds -> counts
+specie sources-intel --offline --cache .cache    # air-gapped replay
 
 # live on-chain trace (esplora chains: bitcoin, litecoin)
-cognis-lattice sources-address --chain bitcoin --address <ADDR>
+specie sources-address --chain bitcoin --address <ADDR>
 ```
 
 ```python
-from cognis_lattice.sources import HttpClient, feeds, registry
+from specie.sources import HttpClient, feeds, registry
 client = HttpClient(cache_dir=".cache")            # add offline=True to replay
 intel = feeds.build_intel(client)                  # sanctioned addrs, tor exits, C2 IPs, certs...
 txs = registry.fetch("btc_esplora", client, address="<ADDR>")   # -> Lattice transactions

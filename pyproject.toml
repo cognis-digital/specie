@@ -3,9 +3,9 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cognis-lattice"
+name = "specie"
 version = "0.5.0"
-description = "Counter-Threat-Finance Attribution & Fusion Platform (Cognis Lattice)"
+description = "Counter-Threat-Finance Attribution & Fusion Platform (Specie)"
 readme = "README.md"
 requires-python = ">=3.9"
 authors = [{ name = "Cognis Digital LLC" }]
@@ -20,10 +20,10 @@ dependencies = []
 Homepage = "https://cognis.digital"
 
 [project.scripts]
-cognis-lattice = "cognis_lattice.cli:main"
+specie = "specie.cli:main"
 
 [tool.setuptools]
-packages = ["cognis_lattice"]
+packages = ["specie"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

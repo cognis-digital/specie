@@ -1,5 +1,5 @@
 from bench import ledgergen
-from cognis_lattice import typologies as typ
+from specie import typologies as typ
 
 
 def _tx(i, s, d, amt, hours, **extra):

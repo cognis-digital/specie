@@ -1,6 +1,6 @@
 # Architecture
 
-Cognis Lattice is a small, composable, dependency-free pipeline. Each stage is a
+Specie is a small, composable, dependency-free pipeline. Each stage is a
 pure module you can use independently or wire together through `fusion`.
 
 ```
@@ -23,7 +23,7 @@ pure module you can use independently or wire together through `fusion`.
 | `fusion` | Merge all sources into a graph; resolve threat-actor profiles. |
 | `stix` | STIX 2.1 bundle export with deterministic UUIDv5 IDs. |
 | `report` | Human-readable and JSON intelligence products. |
-| `cli` | `cognis-lattice` command-line entry point. |
+| `cli` | `specie` command-line entry point. |
 
 ## Design principles
 

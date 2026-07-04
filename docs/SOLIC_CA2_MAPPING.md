@@ -1,9 +1,9 @@
 # SOLIC Challenge Area 2 — Capability Mapping
 
-How Cognis Lattice maps to the DoW SOLIC / ONIX OTA **Challenge Area 2:
+How Specie maps to the DoW SOLIC / ONIX OTA **Challenge Area 2:
 Deanonymization of Illicit Internet Activities for Counter-Threat Finance.**
 
-| Desired capability | Cognis Lattice | Module |
+| Desired capability | Specie | Module |
 |---|---|---|
 | IP deanonymization across Tor/VPN/proxy | Anonymizer enrichment + TLS/domain fingerprint clustering to correlate anonymized addresses to shared infrastructure | `netattr` |
 | Behavioral & temporal IP analysis | Activity-window signatures + co-occurrence correlation producing durable network signatures | `netattr` |
@@ -23,7 +23,7 @@ Deanonymization of Illicit Internet Activities for Counter-Threat Finance.**
 - **Components (TRL 5–6):** the clustering, tracing, infrastructure-fingerprinting,
   screening, and STIX-export methods are working, tested software.
 - **Integrated fusion workflow (prototype):** the end-to-end fuse-to-STIX pipeline
-  is demonstrable now (`cognis-lattice demo`) and is the artifact proposed for the
+  is demonstrable now (`specie demo`) and is the artifact proposed for the
   July 24 pitch/demo, to be hardened against a Government-provided reference
   dataset post-award.
 

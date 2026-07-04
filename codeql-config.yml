@@ -1,15 +1,15 @@
-# CodeQL configuration for Cognis Lattice.
+# CodeQL configuration for Specie.
 #
 # The analytics layer intentionally contains dual-use security terminology
 # (money-laundering typologies, sanctions screening) and deterministic synthetic
 # data generators. These are analytical/defensive and are not vulnerabilities.
-name: "Cognis Lattice CodeQL config"
+name: "Specie CodeQL config"
 
 queries:
   - uses: security-and-quality
 
 paths:
-  - cognis_lattice
+  - specie
   - bench
   - examples
 

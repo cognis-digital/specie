@@ -1,6 +1,6 @@
 import os
 
-from cognis_lattice import chain
+from specie import chain
 
 DATA = os.path.normpath(
     os.path.join(os.path.dirname(__file__), "..", "data", "sample_transactions.json")

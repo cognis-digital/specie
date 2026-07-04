@@ -1,4 +1,4 @@
-from cognis_lattice import network as net
+from specie import network as net
 
 
 def _tx(i, s, d, amt=100):

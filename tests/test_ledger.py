@@ -1,4 +1,4 @@
-from cognis_lattice import ledger
+from specie import ledger
 
 
 TX = [

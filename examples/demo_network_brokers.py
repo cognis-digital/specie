@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from cognis_lattice import network  # noqa: E402
+from specie import network  # noqa: E402
 
 
 def tx(i, s, d, amt=1000):

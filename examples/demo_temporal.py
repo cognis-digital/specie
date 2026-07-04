@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from cognis_lattice import temporal  # noqa: E402
+from specie import temporal  # noqa: E402
 
 BASE = datetime(2026, 1, 1, tzinfo=timezone.utc)
 

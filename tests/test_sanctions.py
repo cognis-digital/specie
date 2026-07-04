@@ -1,6 +1,6 @@
 import os
 
-from cognis_lattice import sanctions
+from specie import sanctions
 
 DATA = os.path.normpath(
     os.path.join(os.path.dirname(__file__), "..", "data", "ofac_sample.json")

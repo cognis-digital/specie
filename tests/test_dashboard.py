@@ -1,5 +1,5 @@
 from bench import ledgergen
-from cognis_lattice import casefile, dashboard
+from specie import casefile, dashboard
 
 
 def _case():

@@ -1,7 +1,7 @@
 """Demo: interop exports (JSON / CSV / STIX 2.1).
 
 Runs the detectors on the bundled ledger and shows the same findings serialised
-three ways so Cognis Lattice plugs into spreadsheets, SIEMs, and STIX consumers.
+three ways so Specie plugs into spreadsheets, SIEMs, and STIX consumers.
 
 Run:  python examples/demo_exports.py
 """
@@ -12,7 +12,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from cognis_lattice import exports, ledger, temporal, typologies  # noqa: E402
+from specie import exports, ledger, temporal, typologies  # noqa: E402
 
 DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 

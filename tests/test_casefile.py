@@ -1,5 +1,5 @@
 from bench import ledgergen
-from cognis_lattice import casefile
+from specie import casefile
 
 
 def _txs():

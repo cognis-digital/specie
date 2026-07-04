@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 
 from bench import ledgergen
-from cognis_lattice import temporal as tmp
+from specie import temporal as tmp
 
 BASE = datetime(2026, 1, 1, tzinfo=timezone.utc)
 

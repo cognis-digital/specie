@@ -7,7 +7,7 @@ from __future__ import annotations
 import json
 import time
 
-from cognis_lattice import chain, fusion
+from specie import chain, fusion
 
 
 def _perf_txs(n: int) -> list:

@@ -1,7 +1,7 @@
 import os
 
-from cognis_lattice import fusion, misp, netattr, sanctions
-from cognis_lattice import chain
+from specie import fusion, misp, netattr, sanctions
+from specie import chain
 
 D = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "data"))
 

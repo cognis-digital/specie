@@ -1,9 +1,9 @@
 import pytest
 
-from cognis_lattice import chain
-from cognis_lattice.sources import feeds, parsers, registry
-from cognis_lattice.sources.catalog import CATALOG
-from cognis_lattice.sources.client import HttpClient
+from specie import chain
+from specie.sources import feeds, parsers, registry
+from specie.sources.catalog import CATALOG
+from specie.sources.client import HttpClient
 
 # ---------------- fixtures (inline; no network) ----------------
 OFAC_XML = """<?xml version="1.0"?>

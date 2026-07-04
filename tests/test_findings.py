@@ -1,4 +1,4 @@
-from cognis_lattice.findings import Finding, sort_findings
+from specie.findings import Finding, sort_findings
 
 
 def test_score_clamped_and_rounded():

@@ -14,7 +14,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from cognis_lattice import network, temporal, typologies  # noqa: E402
+from specie import network, temporal, typologies  # noqa: E402
 
 from bench import ledgergen  # noqa: E402
 
@@ -49,7 +49,7 @@ def evaluate(seed: int = 4242) -> dict:
 
     # Entity-resolution accuracy: exactly one true merge pair is planted; every
     # numbered cohort must stay distinct.
-    from cognis_lattice.ledger import entities as _ents
+    from specie.ledger import entities as _ents
     mapping = network.resolve_entities(_ents(txs))
     merges = {c: [o for o in orig] for c, orig in _grouped(mapping).items()}
     true_merge = ("Acme Trading LLC" in mapping

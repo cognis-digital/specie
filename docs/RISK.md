@@ -24,7 +24,7 @@ contribution, evidence), its `base_noisy_or`, and its `diversity_bonus`, so the
 final `risk` is fully traceable.
 
 ```python
-from cognis_lattice import typologies, temporal, risk
+from specie import typologies, temporal, risk
 findings = typologies.run_all(transfers, watchlist=watchlist) + temporal.run_all(transfers)
 records = risk.score_entities(findings)   # sorted desc by risk
 ```

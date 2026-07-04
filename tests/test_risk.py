@@ -1,5 +1,5 @@
-from cognis_lattice import risk
-from cognis_lattice.findings import Finding
+from specie import risk
+from specie.findings import Finding
 
 
 def test_score_entities_basic():

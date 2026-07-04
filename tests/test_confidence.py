@@ -1,4 +1,4 @@
-from cognis_lattice.confidence import band, combine_supporting
+from specie.confidence import band, combine_supporting
 
 
 def test_noisy_or_two_equal():

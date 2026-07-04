@@ -1,6 +1,6 @@
 import os
 
-from cognis_lattice import netattr
+from specie import netattr
 
 DATA = os.path.normpath(
     os.path.join(os.path.dirname(__file__), "..", "data", "sample_infrastructure.json")

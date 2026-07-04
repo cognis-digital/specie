@@ -1,7 +1,7 @@
 import json
 import os
 
-from cognis_lattice import cli
+from specie import cli
 
 DATA = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "data"))
 LEDGER = os.path.join(DATA, "sample_ledger.json")

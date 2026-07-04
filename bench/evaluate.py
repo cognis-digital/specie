@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import json
 
-from cognis_lattice import chain, fusion, netattr, sanctions, stix
+from specie import chain, fusion, netattr, sanctions, stix
 
 from . import datagen
 from .metrics import label_prf, pairwise_prf

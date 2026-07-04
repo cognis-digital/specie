@@ -11,7 +11,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from bench import benchmark, datagen, evaluate, evaluate_ctf  # noqa: E402
-from cognis_lattice.sources import registry as sreg  # noqa: E402
+from specie.sources import registry as sreg  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -40,7 +40,7 @@ def render_md(res) -> str:
     clean, noisy = res["accuracy"]["clean"], res["accuracy"]["noisy"]
     env = res["environment"]
     L = []
-    L.append("# Cognis Lattice — Verification Results\n")
+    L.append("# Specie — Verification Results\n")
     L.append("Reproduce with: `python bench/run_all.py` (regenerates this file).\n")
     L.append(f"Environment: {env['implementation']} {env['python']} on "
              f"{env['system']}/{env['machine']}. Inputs are deterministic (fixed seed).\n")

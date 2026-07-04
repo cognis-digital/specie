@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Cognis Lattice are documented here.
+All notable changes to Specie are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [0.5.0] — 2026-07-03
@@ -82,7 +82,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.2.0] — 2026-07-01
 
 ### Added
-- **Live intelligence source integration** (`cognis_lattice.sources`): a catalog
+- **Live intelligence source integration** (`specie.sources`): a catalog
   of **48 sources** (46 keyless) across **16 blockchains** — sanctions (OFAC SDN,
   OpenSanctions, Ransomwhere), threat-intel (abuse.ch Feodo/URLhaus/ThreatFox/
   SSLBL, FireHOL, CINS, Spamhaus, Emerging Threats), Tor/anonymizer infrastructure,
@@ -106,17 +106,17 @@ Initial public release.
 ### Added
 - Blockchain analytics: common-input wallet clustering, forward/backward money-flow
   tracing, mixer/CoinJoin detection, within-transaction de-mix candidate linkage,
-  and peel-chain detection (`cognis_lattice.chain`).
+  and peel-chain detection (`specie.chain`).
 - Network/infrastructure attribution: anonymizer (Tor/VPN/proxy) enrichment,
   TLS-certificate/domain fingerprint clustering, temporal signatures, and
-  behavioral co-occurrence correlation (`cognis_lattice.netattr`).
+  behavioral co-occurrence correlation (`specie.netattr`).
 - OFAC-style sanctions screening for crypto addresses and names
-  (`cognis_lattice.sanctions`).
+  (`specie.sanctions`).
 - Fusion engine building a confidence-scored threat-actor graph from all sources
-  (`cognis_lattice.fusion`) with a noisy-OR confidence model
-  (`cognis_lattice.confidence`).
-- STIX 2.1 bundle export with deterministic IDs (`cognis_lattice.stix`).
-- CLI (`cognis-lattice`) with `demo`, `cluster-chain`, `trace`, `detect-mixer`,
+  (`specie.fusion`) with a noisy-OR confidence model
+  (`specie.confidence`).
+- STIX 2.1 bundle export with deterministic IDs (`specie.stix`).
+- CLI (`specie`) with `demo`, `cluster-chain`, `trace`, `detect-mixer`,
   `infra`, `screen`, and `fuse` subcommands.
 - Zero-dependency (stdlib-only) design for offline / air-gapped deployment.
 - Verification harness (`bench/`): deterministic ground-truth datasets, accuracy

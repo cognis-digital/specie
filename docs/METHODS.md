@@ -1,6 +1,6 @@
 # Methods & Schemas
 
-Every score in Cognis Lattice comes from a documented heuristic. This file
+Every score in Specie comes from a documented heuristic. This file
 states each one plainly so results are defensible.
 
 ## Data schemas

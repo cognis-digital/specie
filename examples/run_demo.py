@@ -8,7 +8,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from cognis_lattice import chain, fusion, netattr, report, sanctions, stix  # noqa: E402
+from specie import chain, fusion, netattr, report, sanctions, stix  # noqa: E402
 
 D = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 

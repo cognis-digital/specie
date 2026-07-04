@@ -1,6 +1,6 @@
 # Limitations & Responsible Use
 
-Cognis Lattice is an **investigative-lead generator**, not an oracle. Read this
+Specie is an **investigative-lead generator**, not an oracle. Read this
 before acting on any output.
 
 ## What it does NOT do

@@ -2,8 +2,8 @@ import csv
 import io
 import json
 
-from cognis_lattice import exports
-from cognis_lattice.findings import Finding
+from specie import exports
+from specie.findings import Finding
 
 FS = [
     Finding("structuring", ["A"], 0.8, features={"x": 1}, evidence=["ev1"], rationale="r1"),

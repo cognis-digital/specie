@@ -1,5 +1,5 @@
 <!-- Cognis Digital — purple/white brand -->
-<h1 align="center">🟣 Cognis Lattice</h1>
+<h1 align="center">🟣 Specie</h1>
 <p align="center"><b>Counter-Threat-Finance Attribution &amp; Fusion Platform</b><br>
 <i>Fuse IP/infrastructure deanonymization with multi-chain blockchain analytics into one confidence-scored, STIX-exportable threat-actor graph.</i></p>
 
@@ -13,7 +13,7 @@
 ---
 
 > **Built for:** SOLIC Accelerator / ONIX OTA — **Challenge Area 2: Deanonymization of Illicit Internet Activities for Counter-Threat Finance.**
-> Cognis Lattice removes the manual "stitch" between IP-attribution tools and blockchain-tracing tools: it fuses both into a single, provenance-tracked, confidence-scored intelligence product suitable for law-enforcement sharing — self-hosted, offline, and air-gap capable.
+> Specie removes the manual "stitch" between IP-attribution tools and blockchain-tracing tools: it fuses both into a single, provenance-tracked, confidence-scored intelligence product suitable for law-enforcement sharing — self-hosted, offline, and air-gap capable.
 
 ## Why it exists
 
@@ -23,7 +23,7 @@ infrastructure (Tor, VPNs, proxies) **and** obfuscated cryptocurrency flows
 separate, expensive, vendor-locked tools, and analysts stitch them together by
 hand — slowly, and often in a form too messy to hand a law-enforcement partner.
 
-**Cognis Lattice fuses them.** IP/infrastructure attribution + blockchain
+**Specie fuses them.** IP/infrastructure attribution + blockchain
 analytics → one threat-actor graph, every link carrying an explicit confidence
 score and its rationale, exportable as STIX 2.1.
 
@@ -61,11 +61,11 @@ feeds pull live and cache to disk for **offline / air-gap** replay. See
 [`docs/SOURCES.md`](docs/SOURCES.md).
 
 ```bash
-cognis-lattice sources-stats                          # coverage
-cognis-lattice sources-fetch ofac_sdn                 # live sanctioned wallets
-cognis-lattice sources-fetch feodo_ipblocklist        # live C2 IPs
-cognis-lattice sources-intel --cache .cache           # fuse feeds
-cognis-lattice sources-address --chain bitcoin --address <ADDR>   # live on-chain trace
+specie sources-stats                          # coverage
+specie sources-fetch ofac_sdn                 # live sanctioned wallets
+specie sources-fetch feodo_ipblocklist        # live C2 IPs
+specie sources-intel --cache .cache           # fuse feeds
+specie sources-address --chain bitcoin --address <ADDR>   # live on-chain trace
 ```
 
 ## Counter-threat-finance analytics (v0.5.0)
@@ -76,17 +76,17 @@ exportable cases. All stdlib, offline, deterministic.
 
 ```bash
 # Run every typology + temporal detector, top 10 findings by score
-cognis-lattice typologies --ledger data/sample_ledger.json \
+specie typologies --ledger data/sample_ledger.json \
                           --watchlist data/sample_watchlist.json --top 10
 
 # Network analytics: components, communities, broker centrality
-cognis-lattice network --ledger data/sample_ledger.json
+specie network --ledger data/sample_ledger.json
 
 # Trace the path of funds between two entities
-cognis-lattice trace-funds --ledger data/sample_ledger.json --src LAYER_SRC --dst LAYER_H4
+specie trace-funds --ledger data/sample_ledger.json --src LAYER_SRC --dst LAYER_H4
 
 # Full SAR-style case file + self-contained HTML dashboard + STIX/CSV
-cognis-lattice case --ledger data/sample_ledger.json --watchlist data/sample_watchlist.json \
+specie case --ledger data/sample_ledger.json --watchlist data/sample_watchlist.json \
                     --json case.json --html case.html --stix findings.stix.json --csv findings.csv
 ```
 
@@ -100,9 +100,9 @@ Sanctions/watchlist data is **operator-supplied — none is bundled.**
 ## Quick start
 
 ```bash
-git clone https://github.com/cognis-digital/cognis-lattice
-cd cognis-lattice
-python -m cognis_lattice demo --stix bundle.stix.json --json product.json
+git clone https://github.com/cognis-digital/specie
+cd specie
+python -m specie demo --stix bundle.stix.json --json product.json
 python examples/run_all_demos.py    # 10 runnable analytics demos
 ```
 
@@ -113,17 +113,17 @@ sanctions match, plus mixer/peel-chain analytics and a STIX 2.1 bundle.
 ### Library / other commands
 
 ```bash
-cognis-lattice cluster-chain --tx data/sample_transactions.json
-cognis-lattice trace --tx data/sample_transactions.json --address addr-A1 --direction forward
-cognis-lattice detect-mixer --tx data/sample_transactions.json
-cognis-lattice infra --obs data/sample_infrastructure.json
-cognis-lattice screen --sdn data/ofac_sample.json --tx data/sample_transactions.json
-cognis-lattice fuse --tx data/sample_transactions.json --obs data/sample_infrastructure.json \
+specie cluster-chain --tx data/sample_transactions.json
+specie trace --tx data/sample_transactions.json --address addr-A1 --direction forward
+specie detect-mixer --tx data/sample_transactions.json
+specie infra --obs data/sample_infrastructure.json
+specie screen --sdn data/ofac_sample.json --tx data/sample_transactions.json
+specie fuse --tx data/sample_transactions.json --obs data/sample_infrastructure.json \
                     --linkages data/sample_linkages.json --sdn data/ofac_sample.json --stix out.stix.json
 ```
 
 ```python
-from cognis_lattice import chain, netattr, sanctions, fusion, stix
+from specie import chain, netattr, sanctions, fusion, stix
 g = fusion.build_graph(transactions, observations, linkages, sdn)
 actors = fusion.build_threat_actors(g)
 bundle = stix.bundle_from_graph(g, actors)
@@ -136,7 +136,7 @@ and SDN schemas, and the exact heuristics behind every score.
 
 ## Honest scope & limitations
 
-Cognis Lattice produces **investigative leads with stated confidence — not
+Specie produces **investigative leads with stated confidence — not
 adjudications.** It operates on transparent-ledger transaction data and lawfully
 collected network observations supplied by the operator. It does **not** break
 Tor cryptography and does **not** claim deterministic de-anonymization of privacy

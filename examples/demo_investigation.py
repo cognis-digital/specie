@@ -16,7 +16,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from cognis_lattice import (  # noqa: E402
+from specie import (  # noqa: E402
     exports, ledger, network, risk, temporal, typologies,
 )
 
