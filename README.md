@@ -15,6 +15,60 @@
 > **Built for:** SOLIC Accelerator / ONIX OTA — **Challenge Area 2: Deanonymization of Illicit Internet Activities for Counter-Threat Finance.**
 > Specie removes the manual "stitch" between IP-attribution tools and blockchain-tracing tools: it fuses both into a single, provenance-tracked, confidence-scored intelligence product suitable for law-enforcement sharing — self-hosted, offline, and air-gap capable.
 
+## Install
+
+Specie is **pure Python stdlib with zero third-party runtime dependencies**, so
+installation just puts the `specie` CLI on your `PATH`. Requires **Python 3.9+**.
+The one-command installers create a local `.venv` and are safe to re-run.
+
+**Windows (PowerShell)**
+
+```powershell
+git clone https://github.com/cognis-digital/cognis-lattice
+cd cognis-lattice
+.\install.ps1
+.\.venv\Scripts\Activate.ps1
+specie --help
+```
+
+**macOS**
+
+```bash
+git clone https://github.com/cognis-digital/cognis-lattice
+cd cognis-lattice
+./install.sh
+source .venv/bin/activate
+specie --help
+```
+
+**Linux**
+
+```bash
+git clone https://github.com/cognis-digital/cognis-lattice
+cd cognis-lattice
+./install.sh          # or: make install
+source .venv/bin/activate
+specie --help
+```
+
+**Docker**
+
+```bash
+git clone https://github.com/cognis-digital/cognis-lattice
+cd cognis-lattice
+docker build -t specie .
+docker run --rm specie --help
+# mount your data and run a command:
+docker run --rm -v "$PWD/data:/app/data" specie sources-stats
+```
+
+**pip (no clone)** — install straight from the repo into any environment:
+
+```bash
+pip install "git+https://github.com/cognis-digital/cognis-lattice"
+specie --help
+```
+
 ## Why it exists
 
 Foreign organized-crime and terrorist financiers hide behind anonymized internet
